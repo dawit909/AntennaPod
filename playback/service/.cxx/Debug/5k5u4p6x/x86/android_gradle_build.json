@@ -1,0 +1,69 @@
+{
+  "buildFiles": [
+    "C:\\Users\\zibab\\Desktop\\src\\AntennaPod\\playback\\service\\src\\main\\cpp\\chromaprint\\CMakeLists.txt",
+    "C:\\Users\\zibab\\Desktop\\src\\AntennaPod\\playback\\service\\src\\main\\cpp\\chromaprint\\cmake\\ChromaprintConfig.cmake.in",
+    "C:\\Users\\zibab\\Desktop\\src\\AntennaPod\\playback\\service\\src\\main\\cpp\\chromaprint\\cmake\\cmake_uninstall.cmake.in",
+    "C:\\Users\\zibab\\Desktop\\src\\AntennaPod\\playback\\service\\src\\main\\cpp\\chromaprint\\cmake\\modules\\FindFFmpeg.cmake",
+    "C:\\Users\\zibab\\Desktop\\src\\AntennaPod\\playback\\service\\src\\main\\cpp\\chromaprint\\cmake\\modules\\FindKissFFT.cmake",
+    "C:\\Users\\zibab\\Desktop\\src\\AntennaPod\\playback\\service\\src\\main\\cpp\\chromaprint\\Doxyfile.cmake",
+    "C:\\Users\\zibab\\Desktop\\src\\AntennaPod\\playback\\service\\src\\main\\cpp\\chromaprint\\libchromaprint.pc.cmake",
+    "C:\\Users\\zibab\\Desktop\\src\\AntennaPod\\playback\\service\\src\\main\\cpp\\chromaprint\\src\\CMakeLists.txt",
+    "C:\\Users\\zibab\\Desktop\\src\\AntennaPod\\playback\\service\\src\\main\\cpp\\CMakeLists.txt"
+  ],
+  "cleanCommandsComponents": [
+    [
+      "C:\\Users\\zibab\\AppData\\Local\\Android\\Sdk\\cmake\\3.22.1\\bin\\ninja.exe",
+      "-C",
+      "C:\\Users\\zibab\\Desktop\\src\\AntennaPod\\playback\\service\\.cxx\\Debug\\5k5u4p6x\\x86",
+      "clean"
+    ]
+  ],
+  "buildTargetsCommandComponents": [
+    "C:\\Users\\zibab\\AppData\\Local\\Android\\Sdk\\cmake\\3.22.1\\bin\\ninja.exe",
+    "-C",
+    "C:\\Users\\zibab\\Desktop\\src\\AntennaPod\\playback\\service\\.cxx\\Debug\\5k5u4p6x\\x86",
+    "{LIST_OF_TARGETS_TO_BUILD}"
+  ],
+  "libraries": {
+    "chromaprint::@64ec4f04be89dc4cfa1a": {
+      "toolchain": "toolchain",
+      "abi": "x86",
+      "artifactName": "chromaprint",
+      "output": "C:\\Users\\zibab\\Desktop\\src\\AntennaPod\\playback\\service\\.cxx\\Debug\\5k5u4p6x\\x86\\chromaprint\\src\\libchromaprint.a"
+    },
+    "chromaprint_objs::@64ec4f04be89dc4cfa1a": {
+      "toolchain": "toolchain",
+      "abi": "x86",
+      "artifactName": "chromaprint_objs"
+    },
+    "docs::@e3022d7dd7db6dc9333a": {
+      "toolchain": "toolchain",
+      "abi": "x86",
+      "artifactName": "docs"
+    },
+    "fingerprinter::@6890427a1f51a3e7e1df": {
+      "toolchain": "toolchain",
+      "abi": "x86",
+      "artifactName": "fingerprinter",
+      "output": "C:\\Users\\zibab\\Desktop\\src\\AntennaPod\\playback\\service\\build\\intermediates\\cxx\\Debug\\5k5u4p6x\\obj\\x86\\libfingerprinter.so",
+      "runtimeFiles": []
+    },
+    "uninstall::@e3022d7dd7db6dc9333a": {
+      "toolchain": "toolchain",
+      "abi": "x86",
+      "artifactName": "uninstall"
+    }
+  },
+  "toolchains": {
+    "toolchain": {
+      "cCompilerExecutable": "C:\\Users\\zibab\\AppData\\Local\\Android\\Sdk\\ndk\\27.0.12077973\\toolchains\\llvm\\prebuilt\\windows-x86_64\\bin\\clang.exe",
+      "cppCompilerExecutable": "C:\\Users\\zibab\\AppData\\Local\\Android\\Sdk\\ndk\\27.0.12077973\\toolchains\\llvm\\prebuilt\\windows-x86_64\\bin\\clang++.exe"
+    }
+  },
+  "cFileExtensions": [
+    "c"
+  ],
+  "cppFileExtensions": [
+    "cpp"
+  ]
+}

@@ -12,8 +12,10 @@ import android.util.Log;
 import android.util.Pair;
 import android.view.SurfaceHolder;
 import androidx.annotation.NonNull;
+import androidx.annotation.OptIn;
 import androidx.core.content.ContextCompat;
 import androidx.core.util.Consumer;
+import androidx.media3.common.util.UnstableApi;
 import androidx.media3.session.MediaController;
 import androidx.media3.session.SessionToken;
 import com.google.common.util.concurrent.ListenableFuture;
@@ -530,5 +532,10 @@ public abstract class PlaybackController {
             }
         }, MoreExecutors.directExecutor());
 
+    }
+
+    @OptIn(markerClass = UnstableApi.class)
+    public String getCurrentAudioHash() {
+        return FingerprintAudioProcessor.getLatestHash();
     }
 }

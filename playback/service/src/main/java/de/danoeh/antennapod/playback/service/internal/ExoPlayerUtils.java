@@ -7,13 +7,17 @@ import androidx.media3.common.AudioAttributes;
 import androidx.media3.common.C;
 import androidx.media3.common.MediaItem;
 import androidx.media3.common.PlaybackException;
+import androidx.media3.common.audio.AudioProcessor;
 import androidx.media3.common.util.UnstableApi;
 import androidx.media3.datasource.DefaultDataSource;
 import androidx.media3.datasource.DefaultHttpDataSource;
 import androidx.media3.datasource.HttpDataSource;
 import androidx.media3.exoplayer.DefaultLoadControl;
+import androidx.media3.exoplayer.DefaultRenderersFactory;
 import androidx.media3.exoplayer.ExoPlayer;
 import androidx.media3.exoplayer.SeekParameters;
+import androidx.media3.exoplayer.audio.AudioSink;
+import androidx.media3.exoplayer.audio.DefaultAudioSink;
 import androidx.media3.exoplayer.drm.DrmSessionManagerProvider;
 import androidx.media3.exoplayer.source.DefaultMediaSourceFactory;
 import androidx.media3.exoplayer.source.MediaSource;
@@ -23,15 +27,39 @@ import androidx.media3.extractor.mp3.Mp3Extractor;
 import de.danoeh.antennapod.net.common.NetworkUtils;
 import de.danoeh.antennapod.net.common.UserAgentInterceptor;
 import de.danoeh.antennapod.playback.base.MediaItemAdapter;
+import de.danoeh.antennapod.playback.service.FingerprintAudioProcessor;
 import de.danoeh.antennapod.playback.service.R;
 import de.danoeh.antennapod.storage.preferences.UserPreferences;
 
 import java.util.Collections;
 
 public class ExoPlayerUtils {
-    @OptIn(markerClass = UnstableApi.class)
+
     public static ExoPlayer buildPlayer(Context context) {
-        return new ExoPlayer.Builder(context)
+        return buildPlayer(context, null); // Pass null if no custom processor is needed
+    }
+
+    @OptIn(markerClass = UnstableApi.class)
+    public static ExoPlayer buildPlayer(Context context, AudioProcessor customAudioProcessor) {
+        DefaultRenderersFactory renderersFactory = new DefaultRenderersFactory(context) {
+            @Override
+            protected AudioSink buildAudioSink(Context context, boolean enableFloatOutput, boolean enableAudioTrackPlaybackParams) {
+
+                DefaultAudioSink.Builder builder = new DefaultAudioSink.Builder(context)
+                        .setEnableFloatOutput(enableFloatOutput)
+                        .setEnableAudioTrackPlaybackParams(enableAudioTrackPlaybackParams);
+
+                // Only inject the processor if one was actually provided
+                if (customAudioProcessor != null) {
+                    builder.setAudioProcessors(new AudioProcessor[] { customAudioProcessor });
+                }
+
+                return builder.build();
+            }
+        };
+
+        // 2. Pass the custom factory into the ExoPlayer builder
+        return new ExoPlayer.Builder(context, renderersFactory)
                 .setLoadControl(new DefaultLoadControl.Builder()
                         .setBufferDurationsMs(
                                 (int) (UserPreferences.getFastForwardSecs() * 1000L),

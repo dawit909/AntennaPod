@@ -812,4 +812,37 @@ public final class DBReader {
             adapter.close();
         }
     }
+
+    /**
+     * Fetches the start and end skip timestamps for an episode.
+     * Returns an array [startMs, endMs] or null if no skips exist.
+     */
+    public static long[] getAdSkipForEpisode(long mediaId) {
+        PodDBAdapter adapter = PodDBAdapter.getInstance();
+        adapter.open();
+
+        long[] skipData = null;
+        Cursor cursor = null;
+
+        try {
+            // Ask the adapter for the cursor instead of calling getReadableDatabase
+            cursor = adapter.getAdSkipForEpisodeCursor(mediaId);
+
+            if (cursor != null && cursor.moveToFirst()) {
+                skipData = new long[2];
+                skipData[0] = cursor.getLong(0); // start_ms
+                skipData[1] = cursor.getLong(1); // end_ms
+                Log.d("AdSkipper", "Loaded local timestamps: " + skipData[0] + " -> " + skipData[1]);
+            }
+        } catch (Exception e) {
+            Log.e("AdSkipper", "Failed to read ad skip from DB", e);
+        } finally {
+            if (cursor != null) {
+                cursor.close();
+            }
+            adapter.close();
+        }
+
+        return skipData;
+    }
 }

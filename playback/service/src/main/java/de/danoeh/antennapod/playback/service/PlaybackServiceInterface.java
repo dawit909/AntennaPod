@@ -17,4 +17,6 @@ public abstract class PlaybackServiceInterface {
 
     public static final String ACTION_SHUTDOWN_PLAYBACK_SERVICE
             = "action.de.danoeh.antennapod.core.service.actionShutdownPlaybackService";
+
+    public abstract String getCurrentAudioHash();
 }

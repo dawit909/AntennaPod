@@ -279,6 +279,16 @@
 
             </RelativeLayout>
 
+            <Button
+                android:id="@+id/butMarkAd"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginBottom="16dp"
+                android:backgroundTint="?attr/colorPrimary"
+                android:textColor="?attr/colorOnPrimary"
+                android:text="Mark Ad" />
+
         </LinearLayout>
 
     </RelativeLayout>

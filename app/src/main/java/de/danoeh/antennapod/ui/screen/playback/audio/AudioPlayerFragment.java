@@ -1,5 +1,9 @@
 package de.danoeh.antennapod.ui.screen.playback.audio;
 
+import com.google.android.material.snackbar.Snackbar;
+import de.danoeh.antennapod.event.AdSkippedEvent;
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.KeyEvent;
@@ -25,6 +29,7 @@ import com.google.android.material.appbar.MaterialToolbar;
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
 
 import de.danoeh.antennapod.model.feed.Feed;
+import de.danoeh.antennapod.playback.service.LocalSkipDatabase;
 import de.danoeh.antennapod.playback.service.PlaybackController;
 import de.danoeh.antennapod.playback.service.PlaybackService;
 import de.danoeh.antennapod.playback.service.PlaybackServiceStarter;
@@ -49,6 +54,7 @@ import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.util.Collections;
 import java.util.List;
+import java.util.UUID;
 
 import de.danoeh.antennapod.BuildConfig;
 import de.danoeh.antennapod.R;
@@ -74,7 +80,10 @@ import io.reactivex.rxjava3.core.Maybe;
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
 import io.reactivex.rxjava3.disposables.Disposable;
 import io.reactivex.rxjava3.schedulers.Schedulers;
-
+import android.widget.Button;
+import android.widget.Toast;
+import de.danoeh.antennapod.playback.service.FingerprintAudioProcessor;
+import de.danoeh.antennapod.playback.service.AdSubmitter;
 /**
  * Shows the audio player.
  */
@@ -107,6 +116,12 @@ public class AudioPlayerFragment extends Fragment implements
     private boolean seekedToChapterStart = false;
     private int currentChapterIndex = -1;
 
+
+    // ---> AD SKIPPER VARIABLES <---
+    private Button butMarkAd;
+    private String pendingAdHash = null;
+    private long pendingAdStartTime = 0;
+
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater,
                              @Nullable ViewGroup container,
@@ -136,6 +151,7 @@ public class AudioPlayerFragment extends Fragment implements
         butFF = root.findViewById(R.id.butFF);
         txtvFF = root.findViewById(R.id.txtvFF);
         butSkip = root.findViewById(R.id.butSkip);
+        butMarkAd = root.findViewById(R.id.butMarkAd);
         progressIndicator = root.findViewById(R.id.progLoading);
         cardViewSeek = root.findViewById(R.id.cardViewSeek);
         txtvSeek = root.findViewById(R.id.txtvSeek);
@@ -237,6 +253,54 @@ public class AudioPlayerFragment extends Fragment implements
                 getActivity().sendBroadcast(
                         MediaButtonStarter.createIntent(getContext(), KeyEvent.KEYCODE_MEDIA_NEXT));
             }
+        });
+
+        // ---> AD SKIPPER BUTTON LOGIC <---
+        butMarkAd.setOnClickListener(v -> {
+            if (currentMedia == null) {
+                return;
+            }
+
+            // Bind directly to the live player engine to get the exact millisecond clock
+            PlaybackController.bindToMedia3Service(getContext(), controller -> {
+                long livePosition = controller.getCurrentPosition();
+
+                if (pendingAdHash == null) {
+                    // STATE 1: STARTING THE AD
+                    String liveHash = FingerprintAudioProcessor.getLatestHash();
+
+                    if (liveHash != null) {
+                        pendingAdHash = liveHash;
+                        pendingAdStartTime = livePosition; // Use live clock, no reaction padding
+
+                        butMarkAd.setText("End Ad");
+                        Toast.makeText(getContext(), "Ad marking started!", Toast.LENGTH_SHORT).show();
+                    } else {
+                        Toast.makeText(getContext(), "Waiting for audio hash... try again in 1s", Toast.LENGTH_SHORT).show();
+                    }
+
+                } else {
+                    // STATE 2: ENDING THE AD
+                    long durationMs = livePosition - pendingAdStartTime;
+
+                    String clientId = getClientId();
+                    String episodeId = currentMedia.getItem().getItemIdentifier();
+
+                    if (durationMs > 2000) {
+                        AdSubmitter.submitAd(clientId, episodeId, pendingAdStartTime, pendingAdHash, durationMs);
+                        LocalSkipDatabase localDb = new LocalSkipDatabase(getContext());
+                        localDb.addLocalSkip(episodeId, pendingAdStartTime, durationMs);
+                        Toast.makeText(getContext(), "Ad submitted: " + (durationMs / 1000) + "s skip", Toast.LENGTH_SHORT).show();
+                    } else {
+                        Toast.makeText(getContext(), "Ad too short to submit.", Toast.LENGTH_SHORT).show();
+                    }
+
+                    // Reset the UI state
+                    pendingAdHash = null;
+                    pendingAdStartTime = 0;
+                    butMarkAd.setText("Mark Ad");
+                }
+            });
         });
     }
 
@@ -340,7 +404,9 @@ public class AudioPlayerFragment extends Fragment implements
     public void onStart() {
         super.onStart();
         loadMediaInfo(false);
-        EventBus.getDefault().register(this);
+        if (!EventBus.getDefault().isRegistered(this)) {
+            EventBus.getDefault().register(this);
+        }
         txtvRev.setText(NumberFormat.getInstance().format(UserPreferences.getRewindSecs()));
         txtvFF.setText(NumberFormat.getInstance().format(UserPreferences.getFastForwardSecs()));
     }
@@ -582,5 +648,35 @@ public class AudioPlayerFragment extends Fragment implements
 
     public void scrollToPage(int page) {
         scrollToPage(page, false);
+    }
+
+    // Add this helper method to generate/retrieve the UUID
+    private String getClientId() {
+        SharedPreferences prefs = requireContext().getSharedPreferences("AdSkipperPrefs", Context.MODE_PRIVATE);
+        String clientId = prefs.getString("client_id", null);
+        if (clientId == null) {
+            clientId = UUID.randomUUID().toString();
+            prefs.edit().putString("client_id", clientId).apply();
+        }
+        return clientId;
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onEventMainThread(AdSkippedEvent event) {
+        if (getView() == null || currentMedia == null) return;
+
+        Snackbar.make(getView(), "Sponsor segment skipped", Snackbar.LENGTH_LONG)
+                .setAction("Undo", v -> {
+                    // 1. Send the downvote to the server
+                    String clientId = getClientId();
+                    String episodeId = currentMedia.getItem().getItemIdentifier();
+                    AdSubmitter.reportAd(clientId, episodeId, event.originalTimestampMs);
+
+                    // 2. Rewind the player back to the start of the incorrect skip
+                    PlaybackController.bindToMedia3Service(getContext(), controller -> {
+                        controller.seekTo(event.originalTimestampMs);
+                    });
+                })
+                .show();
     }
 }

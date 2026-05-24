@@ -5,12 +5,27 @@ apply from: "../../common.gradle"
 apply from: "../../playFlavor.gradle"
 
 android {
+    defaultConfig {
+        externalNativeBuild {
+            cmake {
+                cppFlags ''
+            }
+        }
+    }
     namespace "de.danoeh.antennapod.playback.service"
 
     tasks.withType(JavaCompile) {
         // There is no way to suppress this specific warning, so we have to opt out of all:
         // class file for com.google.j2objc.annotations.ReflectionSupport$Level not found
         options.compilerArgs.removeAll { it == "-Werror" }
+    }
+
+
+    externalNativeBuild {
+        cmake {
+            path 'src/main/cpp/CMakeLists.txt'
+            version '3.22.1'
+        }
     }
 }
 
@@ -45,6 +60,7 @@ dependencies {
     implementation "org.greenrobot:eventbus:$eventbusVersion"
     implementation "com.github.bumptech.glide:glide:$glideVersion"
     implementation "org.apache.commons:commons-lang3:$commonslangVersion"
+    implementation "com.squareup.okhttp3:okhttp:4.12.0"
 
     testImplementation "junit:junit:$junitVersion"
     testImplementation "org.mockito:mockito-core:$mockitoVersion"

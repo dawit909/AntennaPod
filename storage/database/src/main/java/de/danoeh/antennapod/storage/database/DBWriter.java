@@ -1,6 +1,7 @@
 package de.danoeh.antennapod.storage.database;
 
 import android.app.backup.BackupManager;
+import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.net.Uri;
@@ -998,6 +999,23 @@ public class DBWriter {
             return Futures.immediateFuture(null);
         } else {
             return dbExec.submit(runnable);
+        }
+    }
+
+    /**
+     * Saves an ad skip segment for a specific episode.
+     */
+    public static void saveAdSkip(long mediaId, long startMs, long endMs) {
+        PodDBAdapter adapter = PodDBAdapter.getInstance();
+        adapter.open();
+
+        try {
+            adapter.saveAdSkip(mediaId, startMs, endMs);
+            Log.d("AdSkipper", "Successfully saved timestamps to local DB for media: " + mediaId);
+        } catch (Exception e) {
+            Log.e("AdSkipper", "Failed to save ad skip to DB", e);
+        } finally {
+            adapter.close();
         }
     }
 }

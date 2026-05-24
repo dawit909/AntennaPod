@@ -55,7 +55,7 @@ public class PodDBAdapter {
 
     private static final String TAG = "PodDBAdapter";
     public static final String DATABASE_NAME = "Antennapod.db";
-    public static final int VERSION = 3110000;
+    public static final int VERSION = 3110002;
 
     /**
      * Maximum number of arguments for IN-operator.
@@ -222,6 +222,15 @@ public class PodDBAdapter {
             + " TEXT," + KEY_START + " INTEGER," + KEY_FEEDITEM + " INTEGER,"
             + KEY_LINK + " TEXT," + KEY_IMAGE_URL + " TEXT)";
 
+
+    // AdSkips Table Constants
+    public static final String TABLE_NAME_AD_SKIPS = "AdSkips";
+    public static final String KEY_AD_SKIP_ID = "id";
+    public static final String KEY_AD_SKIP_MEDIA_ID = "media_id";
+    public static final String KEY_AD_SKIP_START = "start_ms";
+    public static final String KEY_AD_SKIP_END = "end_ms";
+
+
     // SQL Statements for creating indexes
     static final String CREATE_INDEX_FEEDITEMS_FEED = "CREATE INDEX "
             + TABLE_NAME_FEED_ITEMS + "_" + KEY_FEED + " ON " + TABLE_NAME_FEED_ITEMS + " ("
@@ -250,6 +259,14 @@ public class PodDBAdapter {
     static final String CREATE_TABLE_FAVORITES = "CREATE TABLE "
             + TABLE_NAME_FAVORITES + "(" + KEY_ID + " INTEGER PRIMARY KEY,"
             + KEY_FEEDITEM + " INTEGER," + KEY_FEED + " INTEGER)";
+
+
+    private static final String CREATE_TABLE_AD_SKIPS = "CREATE TABLE " + TABLE_NAME_AD_SKIPS + " (" +
+            KEY_AD_SKIP_ID + " INTEGER PRIMARY KEY AUTOINCREMENT," +
+            KEY_AD_SKIP_MEDIA_ID + " INTEGER," +
+            KEY_AD_SKIP_START + " INTEGER," +
+            KEY_AD_SKIP_END + " INTEGER," +
+            "FOREIGN KEY(" + KEY_AD_SKIP_MEDIA_ID + ") REFERENCES " + TABLE_NAME_FEED_MEDIA + "(" + KEY_ID + ") ON DELETE CASCADE)";
 
     /**
      * All the tables in the database
@@ -985,6 +1002,24 @@ public class PodDBAdapter {
                 + PodDBAdapter.KEY_COMPLETION_DATE + "<" + (System.currentTimeMillis() - 7L * 24L * 3600L * 1000L));
     }
 
+
+    // ---> AD SKIPPER SQL WRAPPERS <---
+    public void saveAdSkip(long mediaId, long startMs, long endMs) {
+        ContentValues values = new ContentValues();
+        values.put(KEY_AD_SKIP_MEDIA_ID, mediaId);
+        values.put(KEY_AD_SKIP_START, startMs);
+        values.put(KEY_AD_SKIP_END, endMs);
+        db.insertWithOnConflict(TABLE_NAME_AD_SKIPS, null, values, SQLiteDatabase.CONFLICT_REPLACE);
+    }
+
+    public Cursor getAdSkipForEpisodeCursor(long mediaId) {
+        return db.query(TABLE_NAME_AD_SKIPS,
+                new String[]{KEY_AD_SKIP_START, KEY_AD_SKIP_END},
+                KEY_AD_SKIP_MEDIA_ID + "=?",
+                new String[]{String.valueOf(mediaId)},
+                null, null, null);
+    }
+
     /**
      * Get all Feeds from the Feed Table.
      *
@@ -1575,12 +1610,17 @@ public class PodDBAdapter {
             db.execSQL(CREATE_INDEX_FEEDMEDIA_FEEDITEM);
             db.execSQL(CREATE_INDEX_QUEUE_FEEDITEM);
             db.execSQL(CREATE_INDEX_SIMPLECHAPTERS_FEEDITEM);
+            db.execSQL(CREATE_TABLE_AD_SKIPS);
         }
 
         @Override
         public void onUpgrade(final SQLiteDatabase db, final int oldVersion, final int newVersion) {
             Log.w("DBAdapter", "Upgrading from version " + oldVersion + " to " + newVersion + ".");
             DBUpgrader.upgrade(db, oldVersion, newVersion);
+            if (oldVersion < 3110002) { // Use the number you just bumped to
+                Log.d(TAG, "AdSkipper: Upgrading database to add AdSkips table");
+                db.execSQL(CREATE_TABLE_AD_SKIPS);
+            }
         }
     }
 }

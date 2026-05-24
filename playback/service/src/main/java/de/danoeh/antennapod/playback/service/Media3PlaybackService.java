@@ -22,6 +22,8 @@ import androidx.media3.session.SessionCommand;
 import androidx.media3.session.SessionResult;
 import com.google.common.util.concurrent.Futures;
 import com.google.common.util.concurrent.ListenableFuture;
+
+import de.danoeh.antennapod.event.AdSkippedEvent;
 import de.danoeh.antennapod.event.PlayerErrorEvent;
 import de.danoeh.antennapod.event.StreamingConfirmationEvent;
 import de.danoeh.antennapod.event.settings.VolumeAdaptionChangedEvent;
@@ -68,12 +70,30 @@ import io.reactivex.rxjava3.schedulers.Schedulers;
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.Response;
+import org.json.JSONObject;
+import org.json.JSONArray;
+import java.io.IOException;
+import de.danoeh.antennapod.event.playback.AdDetectedEvent;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Map;
 
 import java.util.Calendar;
 import java.util.Collections;
 import java.util.List;
+import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
+
+
+@UnstableApi
 public class Media3PlaybackService extends MediaLibraryService {
     private static final String TAG = "M3PlaybackService";
     private static final long POSITION_SAVE_INTERVAL_MS = 5000;
@@ -91,6 +111,22 @@ public class Media3PlaybackService extends MediaLibraryService {
     @Nullable
     private LoudnessEnhancer loudnessEnhancer = null;
     private float volumeAdaptionFactor = 1.0f;
+    private long adSkipStartMs = 15000; // 15 seconds
+    private long adSkipEndMs = 45000;   // 45 seconds
+    private boolean adSkippedForThisEpisode = false;
+    private List<AdSubmitter.AdSkip> activeSkips = new ArrayList<>();
+    private Set<Long> processedSkips = new HashSet<>(); // Prevents infinite skip loops
+
+    // 1. Keep a reference to your processor so you can pass data to it
+    // Initialize your processor here so we can keep a reference to it
+    private FingerprintAudioProcessor fingerprintProcessor;
+
+    public String getCurrentAudioHash() {
+        if (fingerprintProcessor != null) {
+            return fingerprintProcessor.getLatestHash();
+        }
+        return null;
+    }
 
     @UnstableApi
     @Override
@@ -103,7 +139,9 @@ public class Media3PlaybackService extends MediaLibraryService {
         notificationProvider.setSmallIcon(R.drawable.ic_notification);
         setMediaNotificationProvider(notificationProvider);
 
-        exoPlayer = ExoPlayerUtils.buildPlayer(this);
+
+        fingerprintProcessor = new FingerprintAudioProcessor();
+        exoPlayer = ExoPlayerUtils.buildPlayer(this, fingerprintProcessor);
         exoPlayer.addListener(new Player.Listener() {
             @Override
             public void onAudioSessionIdChanged(int audioSessionId) {
@@ -373,6 +411,37 @@ public class Media3PlaybackService extends MediaLibraryService {
                                     saveCurrentPosition();
                                     lastPositionSaveTime = currentTime;
                                 }
+
+                                // ---> TEMPORAL AD SKIPPER LOGIC <---
+                                if (activeSkips != null && !activeSkips.isEmpty()) {
+                                    for (AdSubmitter.AdSkip skip : activeSkips) {
+                                        // If the current playback position falls within the ad window
+                                        if (!processedSkips.contains(skip.timestampMs) &&
+                                                position >= skip.timestampMs &&
+                                                position < (skip.timestampMs + skip.durationMs)) {
+
+                                            long targetSeekMs = skip.timestampMs + skip.durationMs;
+                                            // Ensure we don't seek past the end of the file
+                                            if (targetSeekMs > duration) {
+                                                targetSeekMs = duration;
+                                            }
+
+                                            Log.i(TAG, "Executing automated skip over ad starting at " + skip.timestampMs);
+
+                                            if (player instanceof androidx.media3.exoplayer.ExoPlayer) {
+                                                ((androidx.media3.exoplayer.ExoPlayer) player)
+                                                        .setSeekParameters(androidx.media3.exoplayer.SeekParameters.EXACT);
+                                            }
+
+                                            player.seekTo(targetSeekMs);
+                                            processedSkips.add(skip.timestampMs); // Mark as executed
+                                            EventBus.getDefault().post(new AdSkippedEvent(skip.timestampMs));
+                                            break;
+                                        }
+                                    }
+                                }
+                                // ------------------------------------
+
                                 if (SkipUtils.skipEndingIfNecessary(this, currentPlayable, position, duration, speed)) {
                                     player.seekTo(player.getDuration());
                                 }
@@ -407,6 +476,31 @@ public class Media3PlaybackService extends MediaLibraryService {
                         .observeOn(AndroidSchedulers.mainThread())
                         .subscribe(media -> {
                             currentPlayable = media;
+                            // ---> THE LIVE NETWORK FETCH <---
+                            String episodeId = media.getItem().getItemIdentifier();
+
+                            AdSubmitter.fetchAdSkips(episodeId, new AdSubmitter.AdFetchCallback() {
+                                @Override
+                                public void onSuccess(List<AdSubmitter.AdSkip> remoteSkips) {
+                                    // Instantiate the local database using the Service context
+                                    LocalSkipDatabase localDb = new LocalSkipDatabase(Media3PlaybackService.this);
+                                    List<AdSubmitter.AdSkip> localSkips = localDb.getLocalSkips(episodeId);
+
+                                    // Merge both sources into the active array
+                                    activeSkips = new ArrayList<>(remoteSkips);
+                                    activeSkips.addAll(localSkips);
+
+                                    processedSkips.clear(); // Reset temporal locks for the new episode
+
+                                    Log.i(TAG, "Loaded " + remoteSkips.size() + " server skips and " + localSkips.size() + " local skips.");
+                                }
+
+                                @Override
+                                public void onFailure(String error) {
+                                    Log.w(TAG, "Could not load ad skips: " + error);
+                                }
+                            });
+
                             if (player == null) {
                                 return;
                             }
@@ -444,6 +538,22 @@ public class Media3PlaybackService extends MediaLibraryService {
             Log.e(TAG, "Invalid media ID: " + (player != null && player.getCurrentMediaItem() != null
                     ? player.getCurrentMediaItem().mediaId
                     : "null"), e);
+        }
+    }
+
+    // 3. Catch the EventBus message and skip!
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onAdDetected(AdDetectedEvent event) {
+        if (player != null && currentPlayable != null) {
+            long newPosition = player.getCurrentPosition() + event.skipDurationMs;
+
+            // Ensure we don't skip past the end of the episode
+            if (newPosition > player.getDuration()) {
+                newPosition = player.getDuration();
+            }
+
+            Log.i(TAG, "AdSkipper: Executing automated skip of " + event.skipDurationMs + "ms");
+            player.seekTo(newPosition);
         }
     }
 
