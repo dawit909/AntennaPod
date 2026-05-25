@@ -279,15 +279,18 @@
 
             </RelativeLayout>
 
-            <Button
+            <com.google.android.material.button.MaterialButton
                 android:id="@+id/butMarkAd"
+                style="@style/Widget.Material3.Button.OutlinedButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
+                android:layout_marginTop="8dp"
                 android:layout_marginBottom="16dp"
-                android:backgroundTint="?attr/colorPrimary"
-                android:textColor="?attr/colorOnPrimary"
-                android:text="Mark Ad" />
+                android:text="Mark Ad"
+                android:textColor="?android:attr/textColorSecondary"
+                app:strokeColor="?android:attr/textColorSecondary"
+                app:cornerRadius="24dp" />
 
         </LinearLayout>
 

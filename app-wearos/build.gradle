@@ -11,7 +11,7 @@ android {
     namespace "de.danoeh.antennapod.wearos"
 
     defaultConfig {
-        applicationId "de.danoeh.antennapod"
+        applicationId "de.dawit909.antennapod"
         minSdk 25
         targetSdk 36
         versionCode 1

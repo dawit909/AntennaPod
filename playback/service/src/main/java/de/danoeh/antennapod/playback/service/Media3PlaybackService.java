@@ -435,7 +435,7 @@ public class Media3PlaybackService extends MediaLibraryService {
 
                                             player.seekTo(targetSeekMs);
                                             processedSkips.add(skip.timestampMs); // Mark as executed
-                                            EventBus.getDefault().post(new AdSkippedEvent(skip.timestampMs));
+                                            EventBus.getDefault().post(new AdSkippedEvent(currentPlayable.getItem().getItemIdentifier(), skip.timestampMs));
                                             break;
                                         }
                                     }

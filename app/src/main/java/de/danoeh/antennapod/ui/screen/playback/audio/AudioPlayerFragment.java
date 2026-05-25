@@ -248,10 +248,14 @@ public class AudioPlayerFragment extends Fragment implements
         });
         butSkip.setOnClickListener(v -> {
             if (BuildConfig.USE_MEDIA3_PLAYBACK_SERVICE) {
-                PlaybackController.bindToMedia3Service(getContext(), MediaController::seekToNextMediaItem);
+                PlaybackController.bindToMedia3Service(getContext(), controller -> {
+                    controller.seekToNext();
+                });
             } else {
-                getActivity().sendBroadcast(
-                        MediaButtonStarter.createIntent(getContext(), KeyEvent.KEYCODE_MEDIA_NEXT));
+                if (getActivity() != null) {
+                    getActivity().sendBroadcast(
+                            MediaButtonStarter.createIntent(getContext(), android.view.KeyEvent.KEYCODE_MEDIA_NEXT));
+                }
             }
         });
 
@@ -663,20 +667,32 @@ public class AudioPlayerFragment extends Fragment implements
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onEventMainThread(AdSkippedEvent event) {
-        if (getView() == null || currentMedia == null) return;
+        // 1. The Red Alert Log: This proves the signal reached the fragment.
+        Log.e("AdSkipperUI", "SUCCESS: Event reached the UI for timestamp " + event.originalTimestampMs);
 
-        Snackbar.make(getView(), "Sponsor segment skipped", Snackbar.LENGTH_LONG)
-                .setAction("Undo", v -> {
-                    // 1. Send the downvote to the server
-                    String clientId = getClientId();
-                    String episodeId = currentMedia.getItem().getItemIdentifier();
-                    AdSubmitter.reportAd(clientId, episodeId, event.originalTimestampMs);
+        // 2. The Toast Bypass: This proves the UI thread can draw.
+        if (getContext() != null) {
+            android.widget.Toast.makeText(getContext(), "AUTOMATED SKIP TRIGGERED!", android.widget.Toast.LENGTH_LONG).show();
+        } else {
+            Log.e("AdSkipperUI", "FAILURE: getContext() is null!");
+        }
 
-                    // 2. Rewind the player back to the start of the incorrect skip
-                    PlaybackController.bindToMedia3Service(getContext(), controller -> {
-                        controller.seekTo(event.originalTimestampMs);
-                    });
-                })
-                .show();
+        // 3. The Original Snackbar Logic (Keep this to see if it renders)
+        if (getActivity() != null) {
+            android.view.View rootWindowView = getActivity().findViewById(android.R.id.content);
+            if (rootWindowView != null) {
+                com.google.android.material.snackbar.Snackbar.make(rootWindowView, "Sponsor segment skipped", com.google.android.material.snackbar.Snackbar.LENGTH_LONG)
+                        .setAction("Undo", v -> {
+                            String clientId = getClientId();
+                            AdSubmitter.reportAd(clientId, event.episodeId, event.originalTimestampMs);
+                            PlaybackController.bindToMedia3Service(getContext(), controller -> {
+                                controller.seekTo(event.originalTimestampMs);
+                            });
+                        })
+                        .show();
+            } else {
+                Log.e("AdSkipperUI", "FAILURE: rootWindowView is null!");
+            }
+        }
     }
 }
