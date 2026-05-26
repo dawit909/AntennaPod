@@ -7,7 +7,7 @@
 [![Translations on Weblate](https://hosted.weblate.org/widget/antennapod/app/svg-badge.svg?native=1)](https://hosted.weblate.org/engage/antennapod/)
 [![Good first issue](https://img.shields.io/github/issues-search?query=repo%3AAntennaPod%2FAntennaPod%20is%3Aopen%20is%3Aissue%20label%3A%22Good%20first%20issue%22&label=Good%20first%20issue&labelColor=grey&color=%235F1984)](https://github.com/AntennaPod/AntennaPod/labels/Good%20first%20issue)
 
-This is the official repository of AntennaPod, the easy-to-use, flexible and open-source podcast manager for Android.
+This is a forked repository of AntennaPod. My version has the audo ad-skipping feature. It works based on users' voluntary contributions. It works by people uploading ads(start and duration time) to my backend server(dawit909/fpodad_backend). If you want, you can fork this and backend and make it better.
 
 [<img src="https://play.google.com/intl/en_us/badges/images/generic/en_badge_web_generic.png"
       alt="Get it on Google Play"
