@@ -279,20 +279,77 @@
 
             </RelativeLayout>
 
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/butMarkAd"
-                style="@style/Widget.Material3.Button.OutlinedButton"
+            <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
+                android:orientation="horizontal"
                 android:layout_marginTop="8dp"
-                android:layout_marginBottom="16dp"
-                android:text="Mark Ad"
-                android:textColor="?android:attr/textColorSecondary"
-                app:strokeColor="?android:attr/textColorSecondary"
-                app:cornerRadius="24dp" />
+                android:layout_marginBottom="16dp">
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/butMarkAd"
+                    style="@style/Widget.Material3.Button.OutlinedButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Mark Ad"
+                    android:textColor="?android:attr/textColorSecondary"
+                    app:strokeColor="?android:attr/textColorSecondary"
+                    app:cornerRadius="24dp" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/butCancelMark"
+                    style="@style/Widget.Material3.Button.TextButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginLeft="8dp"
+                    android:text="Cancel"
+                    android:textColor="?attr/colorError"
+                    android:visibility="gone" />
+            </LinearLayout>
+
 
         </LinearLayout>
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/skipFeedbackCard"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_above="@id/playtime_layout"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
+            android:layout_marginBottom="16dp"
+            android:visibility="gone"
+            app:cardBackgroundColor="?attr/colorSurfaceVariant"
+            app:cardCornerRadius="12dp"
+            app:cardElevation="8dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:padding="16dp"
+                android:gravity="center_vertical">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Ad Skipped"
+                    android:textColor="?android:attr/textColorPrimary"
+                    android:textStyle="bold"
+                    android:textSize="16sp" />
+
+                <Button
+                    android:id="@+id/btnSkipUndo"
+                    style="@style/Widget.Material3.Button.TextButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Undo"
+                    android:textColor="?attr/colorError" />
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
 
     </RelativeLayout>
 

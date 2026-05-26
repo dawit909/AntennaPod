@@ -418,7 +418,14 @@ public class Media3PlaybackService extends MediaLibraryService {
                                         // If the current playback position falls within the ad window
                                         if (!processedSkips.contains(skip.timestampMs) &&
                                                 position >= skip.timestampMs &&
-                                                position < (skip.timestampMs + skip.durationMs)) {
+                                                position < (skip.timestampMs + 2000)) {
+
+                                            // ---> NEW: ABORT AUTO-SKIP IF MARKING <---
+                                            if (AdSubmitter.isMarkingAd) {
+                                                Log.i(TAG, "Auto-skip aborted: User is currently marking an ad.");
+                                                break;
+                                            }
+                                            // ------------------------------------------
 
                                             long targetSeekMs = skip.timestampMs + skip.durationMs;
                                             // Ensure we don't seek past the end of the file

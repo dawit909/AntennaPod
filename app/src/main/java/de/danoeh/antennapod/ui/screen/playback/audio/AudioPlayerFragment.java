@@ -84,6 +84,10 @@ import android.widget.Button;
 import android.widget.Toast;
 import de.danoeh.antennapod.playback.service.FingerprintAudioProcessor;
 import de.danoeh.antennapod.playback.service.AdSubmitter;
+
+import androidx.annotation.OptIn;
+import androidx.media3.common.util.UnstableApi;
+
 /**
  * Shows the audio player.
  */
@@ -119,8 +123,25 @@ public class AudioPlayerFragment extends Fragment implements
 
     // ---> AD SKIPPER VARIABLES <---
     private Button butMarkAd;
+    private Button butCancelMark; // Add this line
     private String pendingAdHash = null;
     private long pendingAdStartTime = 0;
+
+    private android.view.View skipFeedbackCard;
+    // Add these two variables to hold the data for the timer
+    private String lastSkippedEpisodeId;
+    private long lastSkippedTimestampMs;
+    private android.os.Handler feedbackHandler = new android.os.Handler(android.os.Looper.getMainLooper());
+    private Runnable hideFeedbackRunnable = () -> {
+        // If the card is STILL visible when the 6 seconds end, the user ignored it (Passive Upvote)
+        if (skipFeedbackCard != null && skipFeedbackCard.getVisibility() == android.view.View.VISIBLE) {
+            skipFeedbackCard.setVisibility(android.view.View.GONE);
+
+            if (lastSkippedEpisodeId != null) {
+                AdSubmitter.upvoteAd(getClientId(), lastSkippedEpisodeId, lastSkippedTimestampMs);
+                Log.i(TAG, "Passive upvote submitted. User accepted the skip.");
+            }
+        }    };
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater,
@@ -151,10 +172,13 @@ public class AudioPlayerFragment extends Fragment implements
         butFF = root.findViewById(R.id.butFF);
         txtvFF = root.findViewById(R.id.txtvFF);
         butSkip = root.findViewById(R.id.butSkip);
-        butMarkAd = root.findViewById(R.id.butMarkAd);
+
         progressIndicator = root.findViewById(R.id.progLoading);
         cardViewSeek = root.findViewById(R.id.cardViewSeek);
         txtvSeek = root.findViewById(R.id.txtvSeek);
+
+        butMarkAd = root.findViewById(R.id.butMarkAd);
+        butCancelMark = root.findViewById(R.id.butCancelMark); // Add this line
 
         setupLengthTextView();
         setupControlButtons();
@@ -177,6 +201,8 @@ public class AudioPlayerFragment extends Fragment implements
                 });
             }
         });
+
+        skipFeedbackCard = root.findViewById(R.id.skipFeedbackCard);
 
         return root;
     }
@@ -202,6 +228,7 @@ public class AudioPlayerFragment extends Fragment implements
         sbPosition.setDividerPos(dividerPos);
     }
 
+    @OptIn(markerClass = UnstableApi.class)
     private void setupControlButtons() {
         butRev.setOnClickListener(v -> {
             if (BuildConfig.USE_MEDIA3_PLAYBACK_SERVICE) {
@@ -261,32 +288,31 @@ public class AudioPlayerFragment extends Fragment implements
 
         // ---> AD SKIPPER BUTTON LOGIC <---
         butMarkAd.setOnClickListener(v -> {
-            if (currentMedia == null) {
-                return;
-            }
+            if (currentMedia == null) return;
 
-            // Bind directly to the live player engine to get the exact millisecond clock
             PlaybackController.bindToMedia3Service(getContext(), controller -> {
                 long livePosition = controller.getCurrentPosition();
 
-                if (pendingAdHash == null) {
+                if (!AdSubmitter.isMarkingAd) {
                     // STATE 1: STARTING THE AD
                     String liveHash = FingerprintAudioProcessor.getLatestHash();
 
                     if (liveHash != null) {
+                        AdSubmitter.isMarkingAd = true;
                         pendingAdHash = liveHash;
-                        pendingAdStartTime = livePosition; // Use live clock, no reaction padding
+                        pendingAdStartTime = livePosition;
 
-                        butMarkAd.setText("End Ad");
-                        Toast.makeText(getContext(), "Ad marking started!", Toast.LENGTH_SHORT).show();
+                        butMarkAd.setText("Save Ad");
+                        if (butCancelMark != null) butCancelMark.setVisibility(View.VISIBLE);
+
+                        Toast.makeText(getContext(), "Ad marking started! Auto-skip disabled.", Toast.LENGTH_SHORT).show();
                     } else {
                         Toast.makeText(getContext(), "Waiting for audio hash... try again in 1s", Toast.LENGTH_SHORT).show();
                     }
 
                 } else {
-                    // STATE 2: ENDING THE AD
+                    // STATE 2: ENDING/SAVING THE AD
                     long durationMs = livePosition - pendingAdStartTime;
-
                     String clientId = getClientId();
                     String episodeId = currentMedia.getItem().getItemIdentifier();
 
@@ -300,12 +326,28 @@ public class AudioPlayerFragment extends Fragment implements
                     }
 
                     // Reset the UI state
+                    AdSubmitter.isMarkingAd = false;
                     pendingAdHash = null;
                     pendingAdStartTime = 0;
+
                     butMarkAd.setText("Mark Ad");
+                    if (butCancelMark != null) butCancelMark.setVisibility(View.GONE);
                 }
             });
         });
+
+        // STATE 3: CANCEL BUTTON LOGIC
+        if (butCancelMark != null) {
+            butCancelMark.setOnClickListener(v -> {
+                AdSubmitter.isMarkingAd = false;
+                pendingAdHash = null;
+                pendingAdStartTime = 0;
+
+                butMarkAd.setText("Mark Ad");
+                butCancelMark.setVisibility(View.GONE);
+                Toast.makeText(getContext(), "Marking cancelled. Auto-skip re-enabled.", Toast.LENGTH_SHORT).show();
+            });
+        }
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
@@ -667,32 +709,30 @@ public class AudioPlayerFragment extends Fragment implements
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onEventMainThread(AdSkippedEvent event) {
-        // 1. The Red Alert Log: This proves the signal reached the fragment.
-        Log.e("AdSkipperUI", "SUCCESS: Event reached the UI for timestamp " + event.originalTimestampMs);
+        if (getActivity() == null || skipFeedbackCard == null) return;
 
-        // 2. The Toast Bypass: This proves the UI thread can draw.
-        if (getContext() != null) {
-            android.widget.Toast.makeText(getContext(), "AUTOMATED SKIP TRIGGERED!", android.widget.Toast.LENGTH_LONG).show();
-        } else {
-            Log.e("AdSkipperUI", "FAILURE: getContext() is null!");
-        }
+        // Capture the event data so the delayed Runnable can use it
+        lastSkippedEpisodeId = event.episodeId;
+        lastSkippedTimestampMs = event.originalTimestampMs;
 
-        // 3. The Original Snackbar Logic (Keep this to see if it renders)
-        if (getActivity() != null) {
-            android.view.View rootWindowView = getActivity().findViewById(android.R.id.content);
-            if (rootWindowView != null) {
-                com.google.android.material.snackbar.Snackbar.make(rootWindowView, "Sponsor segment skipped", com.google.android.material.snackbar.Snackbar.LENGTH_LONG)
-                        .setAction("Undo", v -> {
-                            String clientId = getClientId();
-                            AdSubmitter.reportAd(clientId, event.episodeId, event.originalTimestampMs);
-                            PlaybackController.bindToMedia3Service(getContext(), controller -> {
-                                controller.seekTo(event.originalTimestampMs);
-                            });
-                        })
-                        .show();
-            } else {
-                Log.e("AdSkipperUI", "FAILURE: rootWindowView is null!");
-            }
-        }
+        // 1. Show the custom popup
+        skipFeedbackCard.setVisibility(android.view.View.VISIBLE);
+
+        // 2. Reset the timer (hides the popup after 6 seconds)
+        feedbackHandler.removeCallbacks(hideFeedbackRunnable);
+        feedbackHandler.postDelayed(hideFeedbackRunnable, 6000);
+
+        // 3. Handle the "Undo" (Downvote) Button
+        android.widget.Button btnUndo = getView().findViewById(R.id.btnSkipUndo);
+        btnUndo.setOnClickListener(v -> {
+            AdSubmitter.reportAd(getClientId(), event.episodeId, event.originalTimestampMs);
+
+            PlaybackController.bindToMedia3Service(getContext(), controller -> {
+                controller.seekTo(event.originalTimestampMs);
+            });
+
+            skipFeedbackCard.setVisibility(android.view.View.GONE); // Triggers GONE, preventing a passive upvote
+            android.widget.Toast.makeText(getContext(), "Skip reversed and reported.", android.widget.Toast.LENGTH_SHORT).show();
+        });
     }
 }

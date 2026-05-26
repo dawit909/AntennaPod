@@ -1,0 +1,151 @@
+{
+	"configurations" : 
+	[
+		{
+			"directories" : 
+			[
+				{
+					"build" : ".",
+					"childIndexes" : 
+					[
+						1
+					],
+					"hasInstallRule" : true,
+					"jsonFile" : "directory-.-Debug-d0094a50bb2071803777.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.6.0"
+					},
+					"projectIndex" : 0,
+					"source" : ".",
+					"targetIndexes" : 
+					[
+						3
+					]
+				},
+				{
+					"build" : "chromaprint",
+					"childIndexes" : 
+					[
+						2
+					],
+					"hasInstallRule" : true,
+					"jsonFile" : "directory-chromaprint-Debug-41eef5a0bd43c7830153.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.10"
+					},
+					"parentIndex" : 0,
+					"projectIndex" : 1,
+					"source" : "chromaprint",
+					"targetIndexes" : 
+					[
+						2,
+						4
+					]
+				},
+				{
+					"build" : "chromaprint/src",
+					"hasInstallRule" : true,
+					"jsonFile" : "directory-chromaprint.src-Debug-ddecb4847dc06ac23a3f.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.10"
+					},
+					"parentIndex" : 1,
+					"projectIndex" : 1,
+					"source" : "chromaprint/src",
+					"targetIndexes" : 
+					[
+						0,
+						1
+					]
+				}
+			],
+			"name" : "Debug",
+			"projects" : 
+			[
+				{
+					"childIndexes" : 
+					[
+						1
+					],
+					"directoryIndexes" : 
+					[
+						0
+					],
+					"name" : "fingerprinter",
+					"targetIndexes" : 
+					[
+						3
+					]
+				},
+				{
+					"directoryIndexes" : 
+					[
+						1,
+						2
+					],
+					"name" : "chromaprint",
+					"parentIndex" : 0,
+					"targetIndexes" : 
+					[
+						0,
+						1,
+						2,
+						4
+					]
+				}
+			],
+			"targets" : 
+			[
+				{
+					"directoryIndex" : 2,
+					"id" : "chromaprint::@64ec4f04be89dc4cfa1a",
+					"jsonFile" : "target-chromaprint-Debug-eb7d922a9e9aab4ca105.json",
+					"name" : "chromaprint",
+					"projectIndex" : 1
+				},
+				{
+					"directoryIndex" : 2,
+					"id" : "chromaprint_objs::@64ec4f04be89dc4cfa1a",
+					"jsonFile" : "target-chromaprint_objs-Debug-36fa660cc2e08d3738ae.json",
+					"name" : "chromaprint_objs",
+					"projectIndex" : 1
+				},
+				{
+					"directoryIndex" : 1,
+					"id" : "docs::@e3022d7dd7db6dc9333a",
+					"jsonFile" : "target-docs-Debug-fbaa6b9af7cf02b2c69d.json",
+					"name" : "docs",
+					"projectIndex" : 1
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "fingerprinter::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-fingerprinter-Debug-d3850d67050d2d972887.json",
+					"name" : "fingerprinter",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 1,
+					"id" : "uninstall::@e3022d7dd7db6dc9333a",
+					"jsonFile" : "target-uninstall-Debug-8ab9dde3022301ee978b.json",
+					"name" : "uninstall",
+					"projectIndex" : 1
+				}
+			]
+		}
+	],
+	"kind" : "codemodel",
+	"paths" : 
+	{
+		"build" : "C:/Users/zibab/Desktop/src/AntennaPod/playback/service/.cxx/Debug/5k5u4p6x/x86_64",
+		"source" : "C:/Users/zibab/Desktop/src/AntennaPod/playback/service/src/main/cpp"
+	},
+	"version" : 
+	{
+		"major" : 2,
+		"minor" : 3
+	}
+}

@@ -1,0 +1,84 @@
+{
+	"backtraceGraph" : 
+	{
+		"commands" : 
+		[
+			"install"
+		],
+		"files" : 
+		[
+			"chromaprint/CMakeLists.txt"
+		],
+		"nodes" : 
+		[
+			{
+				"file" : 0
+			},
+			{
+				"command" : 0,
+				"file" : 0,
+				"line" : 185,
+				"parent" : 0
+			},
+			{
+				"command" : 0,
+				"file" : 0,
+				"line" : 242,
+				"parent" : 0
+			},
+			{
+				"command" : 0,
+				"file" : 0,
+				"line" : 248,
+				"parent" : 0
+			}
+		]
+	},
+	"installers" : 
+	[
+		{
+			"backtrace" : 1,
+			"component" : "chromaprint",
+			"destination" : "lib/pkgconfig",
+			"paths" : 
+			[
+				"C:/Users/zibab/Desktop/src/AntennaPod/playback/service/.cxx/Debug/5k5u4p6x/armeabi-v7a/chromaprint/libchromaprint.pc"
+			],
+			"type" : "file"
+		},
+		{
+			"backtrace" : 2,
+			"component" : "Unspecified",
+			"destination" : "lib/cmake/Chromaprint",
+			"paths" : 
+			[
+				"C:/Users/zibab/Desktop/src/AntennaPod/playback/service/.cxx/Debug/5k5u4p6x/armeabi-v7a/chromaprint/ChromaprintConfig.cmake",
+				"C:/Users/zibab/Desktop/src/AntennaPod/playback/service/.cxx/Debug/5k5u4p6x/armeabi-v7a/chromaprint/ChromaprintConfigVersion.cmake"
+			],
+			"type" : "file"
+		},
+		{
+			"backtrace" : 3,
+			"component" : "Unspecified",
+			"destination" : "lib/cmake/Chromaprint",
+			"exportName" : "ChromaprintTargets",
+			"exportTargets" : 
+			[
+				{
+					"id" : "chromaprint::@64ec4f04be89dc4cfa1a",
+					"index" : 0
+				}
+			],
+			"paths" : 
+			[
+				"chromaprint/CMakeFiles/Export/lib/cmake/Chromaprint/ChromaprintTargets.cmake"
+			],
+			"type" : "export"
+		}
+	],
+	"paths" : 
+	{
+		"build" : "chromaprint",
+		"source" : "chromaprint"
+	}
+}

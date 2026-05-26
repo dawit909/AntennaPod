@@ -13,13 +13,15 @@ import org.json.JSONObject;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import de.danoeh.antennapod.playback.service.BuildConfig;
 
 import android.util.Log;
 
 public class AdSubmitter {
     private static final OkHttpClient client = new OkHttpClient();
     public static final MediaType JSON = MediaType.get("application/json; charset=utf-8");
-    private static final String BASE_URL = "http://x.x.x.x:8080";
+
+    public static volatile boolean isMarkingAd = false;
 
     // Data structure to hold downloaded skips
     public static class AdSkip {
@@ -45,7 +47,7 @@ public class AdSubmitter {
             RequestBody body = RequestBody.create(json.toString(), JSON);
 
             Request request = new Request.Builder()
-                    .url(BASE_URL + "/api/submit")
+                    .url(BuildConfig.BASE_URL + "/api/submit")
                     .post(body)
                     .build();
 
@@ -67,7 +69,7 @@ public class AdSubmitter {
 
     public static void fetchAdSkips(String episodeId, AdFetchCallback callback) {
         Request request = new Request.Builder()
-                .url(BASE_URL + "/api/skips?episode_id=" + episodeId)
+                .url(BuildConfig.BASE_URL + "/api/skips?episode_id=" + episodeId)
                 .get()
                 .build();
 
@@ -117,7 +119,7 @@ public class AdSubmitter {
 
             RequestBody body = RequestBody.create(json.toString(), JSON);
             Request request = new Request.Builder()
-                    .url(BASE_URL + "/api/report")
+                    .url(BuildConfig.BASE_URL + "/api/report")
                     .post(body)
                     .build();
 
@@ -133,6 +135,34 @@ public class AdSubmitter {
             });
         } catch (Exception e) {
             Log.e("AdSubmitter", "JSON Error in report", e);
+        }
+    }
+
+    public static void upvoteAd(String clientId, String episodeId, long timestampMs) {
+        try {
+            JSONObject json = new JSONObject();
+            json.put("client_id", clientId);
+            json.put("episode_id", episodeId);
+            json.put("timestamp_ms", timestampMs);
+
+            RequestBody body = RequestBody.create(json.toString(), JSON);
+            Request request = new Request.Builder()
+                    .url(BuildConfig.BASE_URL + "/api/upvote")
+                    .post(body)
+                    .build();
+
+            client.newCall(request).enqueue(new Callback() {
+                @Override
+                public void onFailure(Call call, IOException e) {
+                    Log.e("AdSubmitter", "Failed to send upvote", e);
+                }
+                @Override
+                public void onResponse(Call call, Response response) {
+                    response.close();
+                }
+            });
+        } catch (Exception e) {
+            Log.e("AdSubmitter", "JSON Error in upvote", e);
         }
     }
 }
