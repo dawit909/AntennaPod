@@ -1,0 +1,12 @@
+prefix=C:/Program Files (x86)/fingerprinter
+exec_prefix=C:/Program Files (x86)/fingerprinter/bin
+libdir=C:/Program Files (x86)/fingerprinter/lib
+includedir=C:/Program Files (x86)/fingerprinter/include
+
+Name: chromaprint
+Description: Audio fingerprint library
+URL: http://acoustid.org/chromaprint
+Version: 1.6.0
+Libs: -L${libdir} -lchromaprint
+Cflags: -I${includedir}
+

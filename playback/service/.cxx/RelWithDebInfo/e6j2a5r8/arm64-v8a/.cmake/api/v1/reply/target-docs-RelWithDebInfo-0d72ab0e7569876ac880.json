@@ -1,0 +1,66 @@
+{
+	"backtrace" : 1,
+	"backtraceGraph" : 
+	{
+		"commands" : 
+		[
+			"add_custom_target"
+		],
+		"files" : 
+		[
+			"chromaprint/CMakeLists.txt"
+		],
+		"nodes" : 
+		[
+			{
+				"file" : 0
+			},
+			{
+				"command" : 0,
+				"file" : 0,
+				"line" : 222,
+				"parent" : 0
+			}
+		]
+	},
+	"id" : "docs::@e3022d7dd7db6dc9333a",
+	"name" : "docs",
+	"paths" : 
+	{
+		"build" : "chromaprint",
+		"source" : "chromaprint"
+	},
+	"sourceGroups" : 
+	[
+		{
+			"name" : "",
+			"sourceIndexes" : 
+			[
+				0
+			]
+		},
+		{
+			"name" : "CMake Rules",
+			"sourceIndexes" : 
+			[
+				1
+			]
+		}
+	],
+	"sources" : 
+	[
+		{
+			"backtrace" : 1,
+			"isGenerated" : true,
+			"path" : "C:/Users/zibab/Desktop/src/AntennaPod/playback/service/.cxx/RelWithDebInfo/e6j2a5r8/arm64-v8a/chromaprint/CMakeFiles/docs",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 0,
+			"isGenerated" : true,
+			"path" : "C:/Users/zibab/Desktop/src/AntennaPod/playback/service/.cxx/RelWithDebInfo/e6j2a5r8/arm64-v8a/chromaprint/CMakeFiles/docs.rule",
+			"sourceGroupIndex" : 1
+		}
+	],
+	"type" : "UTILITY"
+}

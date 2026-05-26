@@ -1,0 +1,9 @@
+C:\Users\zibab\Desktop\src\AntennaPod\playback\service\src\main\cpp\chromaprint\CMakeLists.txt
+C:\Users\zibab\Desktop\src\AntennaPod\playback\service\src\main\cpp\chromaprint\cmake\ChromaprintConfig.cmake.in
+C:\Users\zibab\Desktop\src\AntennaPod\playback\service\src\main\cpp\chromaprint\cmake\cmake_uninstall.cmake.in
+C:\Users\zibab\Desktop\src\AntennaPod\playback\service\src\main\cpp\chromaprint\cmake\modules\FindFFmpeg.cmake
+C:\Users\zibab\Desktop\src\AntennaPod\playback\service\src\main\cpp\chromaprint\cmake\modules\FindKissFFT.cmake
+C:\Users\zibab\Desktop\src\AntennaPod\playback\service\src\main\cpp\chromaprint\Doxyfile.cmake
+C:\Users\zibab\Desktop\src\AntennaPod\playback\service\src\main\cpp\chromaprint\libchromaprint.pc.cmake
+C:\Users\zibab\Desktop\src\AntennaPod\playback\service\src\main\cpp\chromaprint\src\CMakeLists.txt
+C:\Users\zibab\Desktop\src\AntennaPod\playback\service\src\main\cpp\CMakeLists.txt

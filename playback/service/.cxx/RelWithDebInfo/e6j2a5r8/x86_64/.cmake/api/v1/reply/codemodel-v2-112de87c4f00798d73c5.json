@@ -1,0 +1,151 @@
+{
+	"configurations" : 
+	[
+		{
+			"directories" : 
+			[
+				{
+					"build" : ".",
+					"childIndexes" : 
+					[
+						1
+					],
+					"hasInstallRule" : true,
+					"jsonFile" : "directory-.-RelWithDebInfo-d0094a50bb2071803777.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.6.0"
+					},
+					"projectIndex" : 0,
+					"source" : ".",
+					"targetIndexes" : 
+					[
+						3
+					]
+				},
+				{
+					"build" : "chromaprint",
+					"childIndexes" : 
+					[
+						2
+					],
+					"hasInstallRule" : true,
+					"jsonFile" : "directory-chromaprint-RelWithDebInfo-68b856ca8c44ef053a45.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.10"
+					},
+					"parentIndex" : 0,
+					"projectIndex" : 1,
+					"source" : "chromaprint",
+					"targetIndexes" : 
+					[
+						2,
+						4
+					]
+				},
+				{
+					"build" : "chromaprint/src",
+					"hasInstallRule" : true,
+					"jsonFile" : "directory-chromaprint.src-RelWithDebInfo-ddecb4847dc06ac23a3f.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.10"
+					},
+					"parentIndex" : 1,
+					"projectIndex" : 1,
+					"source" : "chromaprint/src",
+					"targetIndexes" : 
+					[
+						0,
+						1
+					]
+				}
+			],
+			"name" : "RelWithDebInfo",
+			"projects" : 
+			[
+				{
+					"childIndexes" : 
+					[
+						1
+					],
+					"directoryIndexes" : 
+					[
+						0
+					],
+					"name" : "fingerprinter",
+					"targetIndexes" : 
+					[
+						3
+					]
+				},
+				{
+					"directoryIndexes" : 
+					[
+						1,
+						2
+					],
+					"name" : "chromaprint",
+					"parentIndex" : 0,
+					"targetIndexes" : 
+					[
+						0,
+						1,
+						2,
+						4
+					]
+				}
+			],
+			"targets" : 
+			[
+				{
+					"directoryIndex" : 2,
+					"id" : "chromaprint::@64ec4f04be89dc4cfa1a",
+					"jsonFile" : "target-chromaprint-RelWithDebInfo-f5347e7ae86b885e67a4.json",
+					"name" : "chromaprint",
+					"projectIndex" : 1
+				},
+				{
+					"directoryIndex" : 2,
+					"id" : "chromaprint_objs::@64ec4f04be89dc4cfa1a",
+					"jsonFile" : "target-chromaprint_objs-RelWithDebInfo-3eaa64c265df30943ee8.json",
+					"name" : "chromaprint_objs",
+					"projectIndex" : 1
+				},
+				{
+					"directoryIndex" : 1,
+					"id" : "docs::@e3022d7dd7db6dc9333a",
+					"jsonFile" : "target-docs-RelWithDebInfo-54e866b2e9720744957b.json",
+					"name" : "docs",
+					"projectIndex" : 1
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "fingerprinter::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-fingerprinter-RelWithDebInfo-42e5e6c467101336825d.json",
+					"name" : "fingerprinter",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 1,
+					"id" : "uninstall::@e3022d7dd7db6dc9333a",
+					"jsonFile" : "target-uninstall-RelWithDebInfo-01de813fd4278a2ee5d2.json",
+					"name" : "uninstall",
+					"projectIndex" : 1
+				}
+			]
+		}
+	],
+	"kind" : "codemodel",
+	"paths" : 
+	{
+		"build" : "C:/Users/zibab/Desktop/src/AntennaPod/playback/service/.cxx/RelWithDebInfo/e6j2a5r8/x86_64",
+		"source" : "C:/Users/zibab/Desktop/src/AntennaPod/playback/service/src/main/cpp"
+	},
+	"version" : 
+	{
+		"major" : 2,
+		"minor" : 3
+	}
+}

@@ -1,0 +1,491 @@
+{
+	"artifacts" : 
+	[
+		{
+			"path" : "chromaprint/src/CMakeFiles/chromaprint_objs.dir/./avresample/resample2.c.o"
+		},
+		{
+			"path" : "chromaprint/src/CMakeFiles/chromaprint_objs.dir/./fft_lib_kissfft.cpp.o"
+		},
+		{
+			"path" : "chromaprint/src/CMakeFiles/chromaprint_objs.dir/./audio_processor.cpp.o"
+		},
+		{
+			"path" : "chromaprint/src/CMakeFiles/chromaprint_objs.dir/./chroma.cpp.o"
+		},
+		{
+			"path" : "chromaprint/src/CMakeFiles/chromaprint_objs.dir/./chroma_resampler.cpp.o"
+		},
+		{
+			"path" : "chromaprint/src/CMakeFiles/chromaprint_objs.dir/./chroma_filter.cpp.o"
+		},
+		{
+			"path" : "chromaprint/src/CMakeFiles/chromaprint_objs.dir/./spectrum.cpp.o"
+		},
+		{
+			"path" : "chromaprint/src/CMakeFiles/chromaprint_objs.dir/./fft.cpp.o"
+		},
+		{
+			"path" : "chromaprint/src/CMakeFiles/chromaprint_objs.dir/./fingerprinter.cpp.o"
+		},
+		{
+			"path" : "chromaprint/src/CMakeFiles/chromaprint_objs.dir/./image_builder.cpp.o"
+		},
+		{
+			"path" : "chromaprint/src/CMakeFiles/chromaprint_objs.dir/./simhash.cpp.o"
+		},
+		{
+			"path" : "chromaprint/src/CMakeFiles/chromaprint_objs.dir/./silence_remover.cpp.o"
+		},
+		{
+			"path" : "chromaprint/src/CMakeFiles/chromaprint_objs.dir/./fingerprint_calculator.cpp.o"
+		},
+		{
+			"path" : "chromaprint/src/CMakeFiles/chromaprint_objs.dir/./fingerprint_compressor.cpp.o"
+		},
+		{
+			"path" : "chromaprint/src/CMakeFiles/chromaprint_objs.dir/./fingerprint_decompressor.cpp.o"
+		},
+		{
+			"path" : "chromaprint/src/CMakeFiles/chromaprint_objs.dir/./fingerprinter_configuration.cpp.o"
+		},
+		{
+			"path" : "chromaprint/src/CMakeFiles/chromaprint_objs.dir/./fingerprint_matcher.cpp.o"
+		},
+		{
+			"path" : "chromaprint/src/CMakeFiles/chromaprint_objs.dir/./utils/base64.cpp.o"
+		},
+		{
+			"path" : "chromaprint/src/CMakeFiles/chromaprint_objs.dir/./__/__/kissfft/kiss_fft.c.o"
+		},
+		{
+			"path" : "chromaprint/src/CMakeFiles/chromaprint_objs.dir/./__/__/kissfft/kiss_fftr.c.o"
+		}
+	],
+	"backtrace" : 1,
+	"backtraceGraph" : 
+	{
+		"commands" : 
+		[
+			"add_library",
+			"add_definitions",
+			"include_directories"
+		],
+		"files" : 
+		[
+			"chromaprint/src/CMakeLists.txt",
+			"chromaprint/CMakeLists.txt"
+		],
+		"nodes" : 
+		[
+			{
+				"file" : 0
+			},
+			{
+				"command" : 0,
+				"file" : 0,
+				"line" : 81,
+				"parent" : 0
+			},
+			{
+				"file" : 1
+			},
+			{
+				"command" : 1,
+				"file" : 1,
+				"line" : 70,
+				"parent" : 2
+			},
+			{
+				"command" : 1,
+				"file" : 1,
+				"line" : 48,
+				"parent" : 2
+			},
+			{
+				"command" : 2,
+				"file" : 1,
+				"line" : 193,
+				"parent" : 2
+			},
+			{
+				"command" : 2,
+				"file" : 0,
+				"line" : 74,
+				"parent" : 0
+			}
+		]
+	},
+	"compileGroups" : 
+	[
+		{
+			"compileCommandFragments" : 
+			[
+				{
+					"fragment" : "-g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -mstackrealign -D_FORTIFY_SOURCE=2 -Wformat -Werror=format-security  -O2 -g -DNDEBUG -fPIC"
+				}
+			],
+			"defines" : 
+			[
+				{
+					"backtrace" : 3,
+					"define" : "CHROMAPRINT_NODLL"
+				},
+				{
+					"backtrace" : 4,
+					"define" : "HAVE_CONFIG_H"
+				},
+				{
+					"backtrace" : 4,
+					"define" : "_SCL_SECURE_NO_WARNINGS"
+				},
+				{
+					"backtrace" : 4,
+					"define" : "_USE_MATH_DEFINES"
+				},
+				{
+					"backtrace" : 4,
+					"define" : "__STDC_CONSTANT_MACROS"
+				},
+				{
+					"backtrace" : 4,
+					"define" : "__STDC_LIMIT_MACROS"
+				}
+			],
+			"includes" : 
+			[
+				{
+					"backtrace" : 5,
+					"path" : "C:/Users/zibab/Desktop/src/AntennaPod/playback/service/.cxx/RelWithDebInfo/e6j2a5r8/x86/chromaprint"
+				},
+				{
+					"backtrace" : 5,
+					"path" : "C:/Users/zibab/Desktop/src/AntennaPod/playback/service/src/main/cpp/chromaprint/src"
+				},
+				{
+					"backtrace" : 6,
+					"path" : "C:/Users/zibab/Desktop/src/AntennaPod/playback/service/src/main/cpp/kissfft"
+				},
+				{
+					"backtrace" : 6,
+					"path" : "C:/Users/zibab/Desktop/src/AntennaPod/playback/service/src/main/cpp/kissfft/tools"
+				}
+			],
+			"language" : "C",
+			"sourceIndexes" : 
+			[
+				0,
+				26,
+				27
+			],
+			"sysroot" : 
+			{
+				"path" : "C:/Users/zibab/AppData/Local/Android/Sdk/ndk/27.0.12077973/toolchains/llvm/prebuilt/windows-x86_64/sysroot"
+			}
+		},
+		{
+			"compileCommandFragments" : 
+			[
+				{
+					"fragment" : "-g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -mstackrealign -D_FORTIFY_SOURCE=2 -Wformat -Werror=format-security   -O2 -g -DNDEBUG -fPIC"
+				},
+				{
+					"fragment" : "-std=gnu++14"
+				}
+			],
+			"defines" : 
+			[
+				{
+					"backtrace" : 3,
+					"define" : "CHROMAPRINT_NODLL"
+				},
+				{
+					"backtrace" : 4,
+					"define" : "HAVE_CONFIG_H"
+				},
+				{
+					"backtrace" : 4,
+					"define" : "_SCL_SECURE_NO_WARNINGS"
+				},
+				{
+					"backtrace" : 4,
+					"define" : "_USE_MATH_DEFINES"
+				},
+				{
+					"backtrace" : 4,
+					"define" : "__STDC_CONSTANT_MACROS"
+				},
+				{
+					"backtrace" : 4,
+					"define" : "__STDC_LIMIT_MACROS"
+				}
+			],
+			"includes" : 
+			[
+				{
+					"backtrace" : 5,
+					"path" : "C:/Users/zibab/Desktop/src/AntennaPod/playback/service/.cxx/RelWithDebInfo/e6j2a5r8/x86/chromaprint"
+				},
+				{
+					"backtrace" : 5,
+					"path" : "C:/Users/zibab/Desktop/src/AntennaPod/playback/service/src/main/cpp/chromaprint/src"
+				},
+				{
+					"backtrace" : 6,
+					"path" : "C:/Users/zibab/Desktop/src/AntennaPod/playback/service/src/main/cpp/kissfft"
+				},
+				{
+					"backtrace" : 6,
+					"path" : "C:/Users/zibab/Desktop/src/AntennaPod/playback/service/src/main/cpp/kissfft/tools"
+				}
+			],
+			"language" : "CXX",
+			"languageStandard" : 
+			{
+				"backtraces" : 
+				[
+					1
+				],
+				"standard" : "14"
+			},
+			"sourceIndexes" : 
+			[
+				1,
+				2,
+				3,
+				4,
+				5,
+				6,
+				7,
+				8,
+				9,
+				11,
+				12,
+				13,
+				14,
+				15,
+				16,
+				18,
+				20
+			],
+			"sysroot" : 
+			{
+				"path" : "C:/Users/zibab/AppData/Local/Android/Sdk/ndk/27.0.12077973/toolchains/llvm/prebuilt/windows-x86_64/sysroot"
+			}
+		}
+	],
+	"id" : "chromaprint_objs::@64ec4f04be89dc4cfa1a",
+	"name" : "chromaprint_objs",
+	"paths" : 
+	{
+		"build" : "chromaprint/src",
+		"source" : "chromaprint/src"
+	},
+	"sourceGroups" : 
+	[
+		{
+			"name" : "Source Files",
+			"sourceIndexes" : 
+			[
+				0,
+				1,
+				2,
+				3,
+				4,
+				5,
+				6,
+				7,
+				8,
+				9,
+				11,
+				12,
+				13,
+				14,
+				15,
+				16,
+				18,
+				20,
+				26,
+				27
+			]
+		},
+		{
+			"name" : "Header Files",
+			"sourceIndexes" : 
+			[
+				10,
+				17,
+				19,
+				21,
+				22,
+				23,
+				24,
+				25
+			]
+		}
+	],
+	"sources" : 
+	[
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "chromaprint/src/avresample/resample2.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 1,
+			"path" : "chromaprint/src/fft_lib_kissfft.cpp",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 1,
+			"path" : "chromaprint/src/audio_processor.cpp",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 1,
+			"path" : "chromaprint/src/chroma.cpp",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 1,
+			"path" : "chromaprint/src/chroma_resampler.cpp",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 1,
+			"path" : "chromaprint/src/chroma_filter.cpp",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 1,
+			"path" : "chromaprint/src/spectrum.cpp",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 1,
+			"path" : "chromaprint/src/fft.cpp",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 1,
+			"path" : "chromaprint/src/fingerprinter.cpp",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 1,
+			"path" : "chromaprint/src/image_builder.cpp",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"path" : "chromaprint/src/simhash.h",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 1,
+			"path" : "chromaprint/src/simhash.cpp",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 1,
+			"path" : "chromaprint/src/silence_remover.cpp",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 1,
+			"path" : "chromaprint/src/fingerprint_calculator.cpp",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 1,
+			"path" : "chromaprint/src/fingerprint_compressor.cpp",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 1,
+			"path" : "chromaprint/src/fingerprint_decompressor.cpp",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 1,
+			"path" : "chromaprint/src/fingerprinter_configuration.cpp",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"path" : "chromaprint/src/fingerprint_matcher.h",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 1,
+			"path" : "chromaprint/src/fingerprint_matcher.cpp",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"path" : "chromaprint/src/utils/base64.h",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 1,
+			"path" : "chromaprint/src/utils/base64.cpp",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"path" : "chromaprint/src/utils/gradient.h",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 1,
+			"path" : "chromaprint/src/utils/gaussian_filter.h",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 1,
+			"path" : "chromaprint/src/utils/scope_exit.h",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 1,
+			"path" : "chromaprint/src/utils/rolling_integral_image.h",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 1,
+			"path" : "chromaprint/src/audio/audio_slicer.h",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "kissfft/kiss_fft.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "kissfft/kiss_fftr.c",
+			"sourceGroupIndex" : 0
+		}
+	],
+	"type" : "OBJECT_LIBRARY"
+}

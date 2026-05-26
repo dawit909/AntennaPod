@@ -1,0 +1,25 @@
+# ninja log v5
+2	673	8015019371715265	chromaprint/src/CMakeFiles/chromaprint_objs.dir/avresample/resample2.c.o	b041fa039458b222
+682	2131	8015019387183324	chromaprint/src/CMakeFiles/chromaprint_objs.dir/__/__/kissfft/kiss_fft.c.o	4e832672d9b2773
+67	3411	8015019398916146	CMakeFiles/fingerprinter.dir/fingerprinter.cpp.o	2252a6f6457d9cec
+24	3952	8015019405239067	chromaprint/src/CMakeFiles/chromaprint_objs.dir/fft_lib_kissfft.cpp.o	30812531278c7781
+57	4048	8015019406155796	chromaprint/src/CMakeFiles/chromaprint_objs.dir/chroma_resampler.cpp.o	dbf0a1d62faf3e47
+87	4287	8015019408472663	chromaprint/src/CMakeFiles/chromaprint_objs.dir/image_builder.cpp.o	5aa573b52c5ed6ef
+48	4415	8015019409626790	chromaprint/src/CMakeFiles/chromaprint_objs.dir/spectrum.cpp.o	f1fe6e2ae8b784b5
+38	4459	8015019410220147	chromaprint/src/CMakeFiles/chromaprint_objs.dir/chroma_filter.cpp.o	5d500e64ebe55fae
+18	4585	8015019411024754	chromaprint/src/CMakeFiles/chromaprint_objs.dir/chroma.cpp.o	904dec0dca2e9e7a
+10	4635	8015019411509256	chromaprint/src/CMakeFiles/chromaprint_objs.dir/audio_processor.cpp.o	f1917ef8cf873ea0
+76	4864	8015019413280931	chromaprint/src/CMakeFiles/chromaprint_objs.dir/fft.cpp.o	c6951be1372df851
+4865	5602	8015019421456475	chromaprint/src/CMakeFiles/chromaprint_objs.dir/__/__/kissfft/kiss_fftr.c.o	bce6a9a18dc4c12
+2132	7241	8015019436906147	chromaprint/src/CMakeFiles/chromaprint_objs.dir/fingerprinter.cpp.o	65e9d829e7adb668
+4586	7968	8015019445165443	chromaprint/src/CMakeFiles/chromaprint_objs.dir/utils/base64.cpp.o	b7b13c569a1d56ee
+4049	8307	8015019448786044	chromaprint/src/CMakeFiles/chromaprint_objs.dir/simhash.cpp.o	e4c8f33289dbb65c
+3955	8389	8015019449696940	chromaprint/src/CMakeFiles/chromaprint_objs.dir/silence_remover.cpp.o	b263b42bd622ddf5
+4417	9265	8015019458027658	chromaprint/src/CMakeFiles/chromaprint_objs.dir/fingerprinter_configuration.cpp.o	210db0891cf2c34a
+3454	9431	8015019459902183	chromaprint/src/CMakeFiles/chromaprint_objs.dir/fingerprint_calculator.cpp.o	5da402cf46e7dfe3
+4460	9538	8015019461066854	chromaprint/src/CMakeFiles/chromaprint_objs.dir/fingerprint_compressor.cpp.o	3d3534af585640a4
+4636	10082	8015019465895407	chromaprint/src/CMakeFiles/chromaprint_objs.dir/fingerprint_decompressor.cpp.o	b551b2e2367d01a1
+5603	11078	8015019476594158	chromaprint/src/CMakeFiles/chromaprint.dir/chromaprint.cpp.o	53427a64d181e2d9
+4288	12293	8015019488833779	chromaprint/src/CMakeFiles/chromaprint_objs.dir/fingerprint_matcher.cpp.o	fe5e6df94b7f3686
+12293	12429	8015019490127072	chromaprint/src/libchromaprint.a	64e908c7df9eda57
+12429	12579	8015019491748955	C:/Users/zibab/Desktop/src/AntennaPod/playback/service/build/intermediates/cxx/RelWithDebInfo/e6j2a5r8/obj/x86/libfingerprinter.so	f53a5fe7b9162e38

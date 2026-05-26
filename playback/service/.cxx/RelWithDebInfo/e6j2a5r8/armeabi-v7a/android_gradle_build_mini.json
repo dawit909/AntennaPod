@@ -1,0 +1,56 @@
+{
+  "buildFiles": [
+    "C:\\Users\\zibab\\Desktop\\src\\AntennaPod\\playback\\service\\src\\main\\cpp\\chromaprint\\CMakeLists.txt",
+    "C:\\Users\\zibab\\Desktop\\src\\AntennaPod\\playback\\service\\src\\main\\cpp\\chromaprint\\cmake\\ChromaprintConfig.cmake.in",
+    "C:\\Users\\zibab\\Desktop\\src\\AntennaPod\\playback\\service\\src\\main\\cpp\\chromaprint\\cmake\\cmake_uninstall.cmake.in",
+    "C:\\Users\\zibab\\Desktop\\src\\AntennaPod\\playback\\service\\src\\main\\cpp\\chromaprint\\cmake\\modules\\FindFFmpeg.cmake",
+    "C:\\Users\\zibab\\Desktop\\src\\AntennaPod\\playback\\service\\src\\main\\cpp\\chromaprint\\cmake\\modules\\FindKissFFT.cmake",
+    "C:\\Users\\zibab\\Desktop\\src\\AntennaPod\\playback\\service\\src\\main\\cpp\\chromaprint\\Doxyfile.cmake",
+    "C:\\Users\\zibab\\Desktop\\src\\AntennaPod\\playback\\service\\src\\main\\cpp\\chromaprint\\libchromaprint.pc.cmake",
+    "C:\\Users\\zibab\\Desktop\\src\\AntennaPod\\playback\\service\\src\\main\\cpp\\chromaprint\\src\\CMakeLists.txt",
+    "C:\\Users\\zibab\\Desktop\\src\\AntennaPod\\playback\\service\\src\\main\\cpp\\CMakeLists.txt"
+  ],
+  "cleanCommandsComponents": [
+    [
+      "C:\\Users\\zibab\\AppData\\Local\\Android\\Sdk\\cmake\\3.22.1\\bin\\ninja.exe",
+      "-C",
+      "C:\\Users\\zibab\\Desktop\\src\\AntennaPod\\playback\\service\\.cxx\\RelWithDebInfo\\e6j2a5r8\\armeabi-v7a",
+      "clean"
+    ]
+  ],
+  "buildTargetsCommandComponents": [
+    "C:\\Users\\zibab\\AppData\\Local\\Android\\Sdk\\cmake\\3.22.1\\bin\\ninja.exe",
+    "-C",
+    "C:\\Users\\zibab\\Desktop\\src\\AntennaPod\\playback\\service\\.cxx\\RelWithDebInfo\\e6j2a5r8\\armeabi-v7a",
+    "{LIST_OF_TARGETS_TO_BUILD}"
+  ],
+  "libraries": {
+    "uninstall::@e3022d7dd7db6dc9333a": {
+      "artifactName": "uninstall",
+      "abi": "armeabi-v7a",
+      "runtimeFiles": []
+    },
+    "chromaprint_objs::@64ec4f04be89dc4cfa1a": {
+      "artifactName": "chromaprint_objs",
+      "abi": "armeabi-v7a",
+      "runtimeFiles": []
+    },
+    "chromaprint::@64ec4f04be89dc4cfa1a": {
+      "artifactName": "chromaprint",
+      "abi": "armeabi-v7a",
+      "output": "C:\\Users\\zibab\\Desktop\\src\\AntennaPod\\playback\\service\\.cxx\\RelWithDebInfo\\e6j2a5r8\\armeabi-v7a\\chromaprint\\src\\libchromaprint.a",
+      "runtimeFiles": []
+    },
+    "docs::@e3022d7dd7db6dc9333a": {
+      "artifactName": "docs",
+      "abi": "armeabi-v7a",
+      "runtimeFiles": []
+    },
+    "fingerprinter::@6890427a1f51a3e7e1df": {
+      "artifactName": "fingerprinter",
+      "abi": "armeabi-v7a",
+      "output": "C:\\Users\\zibab\\Desktop\\src\\AntennaPod\\playback\\service\\build\\intermediates\\cxx\\RelWithDebInfo\\e6j2a5r8\\obj\\armeabi-v7a\\libfingerprinter.so",
+      "runtimeFiles": []
+    }
+  }
+}
