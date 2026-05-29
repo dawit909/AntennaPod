@@ -14,6 +14,7 @@ android {
         // "1.2.3"          -> 1020395
         versionCode 3110395
         versionName "3.11.3"
+        applicationId "com.dawit909.fpodad"
     }
 
     signingConfigs {
@@ -30,10 +31,10 @@ android {
     buildTypes {
         debug {
             applicationIdSuffix ".debug"
-            resValue "string", "provider_authority", "de.danoeh.antennapod.debug.provider"
+            resValue "string", "provider_authority", "com.dawit909.fpodad.debug.provider"
         }
         release {
-            resValue "string", "provider_authority", "de.danoeh.antennapod.provider"
+            resValue "string", "provider_authority", "com.dawit909.fpodad.provider"
             minifyEnabled true
             shrinkResources true
             signingConfig signingConfigs.releaseConfig

@@ -1,5 +1,6 @@
 package de.danoeh.antennapod.playback.service;
 
+import de.danoeh.antennapod.ui.chapters.ChapterUtils;
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.MediaType;
@@ -36,10 +37,12 @@ public class AdSubmitter {
     }
 
     public static void submitAd(String clientId, String episodeId, long startTimestampMs, String hash, long skipDurationMs) {
+        String encodedEpisodeId = ChapterUtils.CryptoUtils.hashEpisodeId(episodeId);
+
         try {
             JSONObject json = new JSONObject();
             json.put("client_id", clientId);
-            json.put("episode_id", episodeId);
+            json.put("episode_id", encodedEpisodeId);
             json.put("timestamp_ms", startTimestampMs); // NEW
             json.put("fingerprint", hash);
             json.put("skip_duration_ms", skipDurationMs);
@@ -68,8 +71,9 @@ public class AdSubmitter {
     }
 
     public static void fetchAdSkips(String episodeId, AdFetchCallback callback) {
+        String encodedEpisodeId = ChapterUtils.CryptoUtils.hashEpisodeId(episodeId);
         Request request = new Request.Builder()
-                .url(BuildConfig.BASE_URL + "/api/skips?episode_id=" + episodeId)
+                .url(BuildConfig.BASE_URL + "/api/skips?episode_id=" + encodedEpisodeId)
                 .get()
                 .build();
 
@@ -111,10 +115,11 @@ public class AdSubmitter {
         });
     }
     public static void reportAd(String clientId, String episodeId, long timestampMs) {
+        String encodedEpisodeId = ChapterUtils.CryptoUtils.hashEpisodeId(episodeId);
         try {
             JSONObject json = new JSONObject();
             json.put("client_id", clientId);
-            json.put("episode_id", episodeId);
+            json.put("episode_id", encodedEpisodeId);
             json.put("timestamp_ms", timestampMs);
 
             RequestBody body = RequestBody.create(json.toString(), JSON);
@@ -139,10 +144,11 @@ public class AdSubmitter {
     }
 
     public static void upvoteAd(String clientId, String episodeId, long timestampMs) {
+        String encodedEpisodeId = ChapterUtils.CryptoUtils.hashEpisodeId(episodeId);
         try {
             JSONObject json = new JSONObject();
             json.put("client_id", clientId);
-            json.put("episode_id", episodeId);
+            json.put("episode_id", encodedEpisodeId);
             json.put("timestamp_ms", timestampMs);
 
             RequestBody body = RequestBody.create(json.toString(), JSON);

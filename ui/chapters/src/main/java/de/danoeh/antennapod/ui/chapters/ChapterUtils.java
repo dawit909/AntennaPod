@@ -31,7 +31,9 @@ import java.io.InterruptedIOException;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
-
+import java.nio.charset.StandardCharsets;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 /**
  * Utility class for getting chapter data from media files.
  */
@@ -253,6 +255,30 @@ public class ChapterUtils {
         @Override
         public int compare(Chapter lhs, Chapter rhs) {
             return Long.compare(lhs.getStart(), rhs.getStart());
+        }
+    }
+
+    public class CryptoUtils {
+        public static String hashEpisodeId(String originalId) {
+            if (originalId == null || originalId.isEmpty()) {
+                return "";
+            }
+            try {
+                // SHA-256 creates a clean, collision-free 64-character hex string
+                MessageDigest digest = MessageDigest.getInstance("SHA-256");
+                byte[] hash = digest.digest(originalId.getBytes(StandardCharsets.UTF_8));
+
+                StringBuilder hexString = new StringBuilder();
+                for (byte b : hash) {
+                    String hex = Integer.toHexString(0xff & b);
+                    if (hex.length() == 1) hexString.append('0');
+                    hexString.append(hex);
+                }
+                return hexString.toString();
+            } catch (NoSuchAlgorithmException e) {
+                // Fallback to original string if the algorithm isn't found (highly unlikely on Android)
+                return originalId;
+            }
         }
     }
 }
