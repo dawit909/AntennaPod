@@ -36,6 +36,8 @@ public class AdSubmitter {
         void onFailure(String error);
     }
 
+    String baseUrl = AdSkipPreferences.getServerUrl(context);
+
     public static void submitAd(String clientId, String episodeId, long startTimestampMs, String hash, long skipDurationMs) {
         String encodedEpisodeId = ChapterUtils.CryptoUtils.hashEpisodeId(episodeId);
 

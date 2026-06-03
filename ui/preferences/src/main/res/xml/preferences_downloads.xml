@@ -52,4 +52,24 @@
                 android:summary="@string/pref_proxy_sum"
                 android:title="@string/pref_proxy_title"/>
     </PreferenceCategory>
+
+    <PreferenceCategory android:title="@string/pref_category_ad_skip">
+
+        <SwitchPreferenceCompat
+            android:key="@string/pref_ad_skip_enabled_key"
+            android:title="@string/pref_ad_skip_enabled_title"
+            android:summary="@string/pref_ad_skip_enabled_summary"
+            android:defaultValue="false"
+            android:iconSpaceReserved="false" />
+
+        <EditTextPreference
+            android:key="@string/pref_ad_skip_server_key"
+            android:title="@string/pref_ad_skip_server_title"
+            android:summary="@string/pref_ad_skip_server_summary"
+            android:defaultValue="@string/pref_ad_skip_server_default"
+            android:dependency="@string/pref_ad_skip_enabled_key"
+            android:singleLine="true"
+            android:iconSpaceReserved="false" />
+
+    </PreferenceCategory>
 </PreferenceScreen>

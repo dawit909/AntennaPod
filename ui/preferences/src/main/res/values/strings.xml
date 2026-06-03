@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="pref_category_ad_skip" translatable="false">Community Ad Skipping</string>
+
+    <string name="pref_ad_skip_enabled_key" translatable="false">pref_ad_skip_enabled</string>
+    <string name="pref_ad_skip_enabled_title" translatable="false">Enable Community Ad Skipping</string>
+    <string name="pref_ad_skip_enabled_summary" translatable="false">Automatically skip podcast advertisements using crowdsourced timestamps. This requires sending hashed episode IDs to a community server.</string>
+
+    <string name="pref_ad_skip_server_key" translatable="false">pref_ad_skip_server_url</string>
+    <string name="pref_ad_skip_server_title" translatable="false">Custom Server URL</string>
+    <string name="pref_ad_skip_server_summary" translatable="false">The backend server used to fetch and submit ad timestamps.</string>
+    <string name="pref_ad_skip_server_default" translatable="false">https://api.fpodadbackend.win</string>
+</resources>
